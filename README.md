@@ -1,13 +1,20 @@
-# 📊 Case Técnico de Data Analysis - iFood 🏍️🍕
+# 📊💰In-App Browser Experimentation Framework 🩷🛍️
 
-Este é um case técnico de análise de dados com o objetivo de desenvolver uma solução baseada em dados para direcionar uma **estratégia de cupons como alavanca de crescimento** para o iFood.
+
+Framework operacional para análise, validação e recomendação de experimentos relacionados à navegação In-App Browser, tracking de atribuição e comportamento de saída para browser externo. **Shopping Méliuz**
 
 O projeto inclui:
 
-- Tratamento de dados
-- Notebooks de processamento e análise
-- Instruções de execução
-- Relatório final com os resultados obtidos
+- framework reutilizável de análise de experimentos
+- reconstrução de variantes via tracking
+- validação automatizada de consistência
+- análise comportamental de navegação
+- avaliação de impacto em conversão e atribuição
+- camada de governança analítica
+- agente operacional baseado em IA
+- geração de recomendações executivas
+- estrutura de PRD para próximas iterações
+- plano de instrumentação e experimentação
 
 ---
 
