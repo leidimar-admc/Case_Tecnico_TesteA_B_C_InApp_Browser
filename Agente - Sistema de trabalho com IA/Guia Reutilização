@@ -1,0 +1,19 @@
+# Etapas 
+
+## Atualizar os CSVs com os dados do novo teste
+-channels
+-partners
+-transactions
+-url_params
+-visit_url_metadata
+-visits
+
+## No Colab
+Acesse: https://colab.research.google.com/
+Menu superior > arquivo > Fazer Upload de Notebook
+
+
+Menu lateral esquerdo > ícone de pasta "Arquivos"
+rodar notebooks
+subir outputs
+executar workflow IA
