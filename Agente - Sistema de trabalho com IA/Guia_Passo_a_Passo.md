@@ -74,8 +74,8 @@ Após a IA confirmar o entendimento do contexto, envie o **`PROMPT 2`** anexando
 
 Valide a resposta gerada pela IA, garantindo que ela cruzou corretamente os dados brutos com o comportamento esperado.
 
-### Passo 4.3: Conclusão e Próximos Passos
-Envie o **`PROMPT 3`** para consolidar a recomendação executiva final, os trade-offs identificados e os riscos de implementação.
+### Passo 4.3: Próximos Passos
+Envie o **`PROMPT 3`** para propor melhoria experimental
 
 ---
 
