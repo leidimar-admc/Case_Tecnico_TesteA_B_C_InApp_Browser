@@ -1,4 +1,4 @@
-Analise os materiais recebidos e execute:
+Analise os materiais recebidos e execute o workflow padrão de interpretação experimental.
 
 1. entendimento do contexto do produto
 2. interpretação do experimento
@@ -11,12 +11,15 @@ Analise os materiais recebidos e execute:
    - UX
    - retenção
 
-Não analise ainda os CSVs.
-Não gere recomendação final.
-
 Estruture:
 - entendimento do problema
 - hipóteses do experimento
 - possíveis riscos
 - possíveis métricas
 - possíveis limitações
+
+Não gere ainda recomendação.
+
+Não assuma conclusões sem evidência quantitativa.
+
+Considere que os outputs quantitativos serão enviados posteriormente pela camada analítica.
