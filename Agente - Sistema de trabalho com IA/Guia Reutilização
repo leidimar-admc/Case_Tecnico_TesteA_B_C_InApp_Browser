@@ -27,5 +27,16 @@ No Menu lateral de arquivos, faça dowload de:
 'variant_flow_summary.csv'
 'experiment_dataset_sample_small.csv'
 'significance_results.csv'
+
+Acesse o Google AI Studio
+https://aistudio.google.com/prompts/new_chat
+Em Explore Google models > clique em "Code and Chat"
+No Menu lateral direito, configure.
+> "Gemini 2.5 Pro"
+> Em "System Instructions" clique e Cole o conteúdo de system_instructions.md deste documento e de um nome identificavél para o agente.
+Sugestão: Empresa+Area+função do agente
+Méliuz Shopping [Agente de análise de testes de produto]
+
+
 subir outputs
 executar workflow IA
