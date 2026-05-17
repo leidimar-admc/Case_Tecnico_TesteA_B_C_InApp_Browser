@@ -1,5 +1,5 @@
-# Etapas 
 
+# Etapas 
 ## Atualizar os CSVs com os dados do novo teste
 -channels
 -partners
@@ -8,9 +8,12 @@
 -visit_url_metadata
 -visits
 
+## Baixar o Notebook experiment_analysis_UP.ipynb presente nessa pasta
+
 ## No Colab
 Acesse: https://colab.research.google.com/
 Menu superior > arquivo > Fazer Upload de Notebook
+experiment_analysis_UP.ipynb
 
 
 Menu lateral esquerdo > ícone de pasta "Arquivos"
