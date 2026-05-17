@@ -1,33 +1,4 @@
 # Executive Summary
-
-## Contexto
-
-O experimento analisado avaliou alternativas de navegação externa em um fluxo mobile de cashback.
-
-O objetivo era entender se permitir saída para navegador externo melhoraria a experiência do usuário sem comprometer métricas de negócio e tracking.
-
----
-
-# Problema de Produto
-
-Aplicações de cashback dependem fortemente de:
-
-- tracking confiável
-- persistência de sessão
-- atribuição correta
-- continuidade da jornada
-
-O uso exclusivo de In-App Browser pode gerar:
-
-- limitações de autenticação
-- problemas de login
-- dificuldades de navegação
-- incompatibilidades com algumas experiências web
-
-Por outro lado, permitir navegação externa pode:
-
-- melhorar UX
-- reduzir fricção
 - melhorar autenticação
 - mas comprometer tracking e atribuição
 
@@ -55,4 +26,52 @@ permitir saída externa em elementos de maior intenção de navegação poderia 
 
 Hipótese:
 
+permitir saída externa em pontos mais sensíveis de autenticação e configuração poderia reduzir fricção sem degradar métricas principais.
+
+---
+
+# Principais Resultados
+
+## Conversão
+
+- Variante B apresentou piora estatisticamente significativa.
+- Variante C apresentou resultado inconclusivo.
+
+---
+
+# Tracking
+
+Os fluxos externos apresentaram:
+
+- maior risco de tracking loss
+- possíveis limitações de atribuição
+- maior incerteza experimental
+
+---
+
+# Trade-offs Identificados
+
+| Benefício Potencial | Risco |
+|---|---|
+| Melhor UX | perda de tracking |
+| Melhor autenticação | perda de atribuição |
+| Navegação mais natural | menor confiabilidade analítica |
+| Menor fricção | menor controle operacional |
+
+---
+
+# Recomendação Final
+
+Manter a Variante A.
+
+As evidências quantitativas atuais não justificam rollout das variantes externas.
+
+---
+
+# Próximos Passos
+
+- melhorar tracking cross-browser
+- validar deep linking
+- melhorar persistência de sessão
+- estruturar nova camada de atribuição
 - executar novo experimento controlado
