@@ -1,0 +1,64 @@
+Excelente. Com base nos materiais fornecidos (fluxograma visual, enunciado e contexto de produto), e seguindo as instruções para esta fase inicial, apresento a análise estruturada do experimento.
+
+---
+
+### **Análise Preliminar do Experimento: In-App Browser vs. Navegador Externo**
+
+Esta análise foca na interpretação do problema, hipóteses, riscos e métricas, sem a utilização dos dados quantitativos (CSVs).
+
+#### **1. Entendimento do Problema de Produto**
+
+O problema central reside na tensão fundamental entre **controle de tracking/atribuição** e a **experiência do usuário (UX)** na jornada de compra mobile.
+
+-   **Contexto Atual (Controle):** A Méliuz utiliza um In-App Browser (IAB) para redirecionar usuários às lojas parceiras. Esta abordagem maximiza o controle sobre a jornada, o que é crucial para garantir a persistência de cookies e parâmetros de tracking, assegurando que a Méliuz receba a atribuição (e a comissão) pela venda.
+-   **Fricção do Usuário:** O IAB, no entanto, pode criar uma experiência de compra inferior. Usuários frequentemente não estão logados em suas contas nas lojas parceiras dentro do IAB, não possuem seus dados de pagamento salvos, e podem encontrar problemas de renderização ou usabilidade. Essa fricção pode levar ao abandono da compra.
+-   **O Dilema:** Enviar o usuário para seu navegador padrão (externo) poderia resolver a fricção de UX (login, pagamentos salvos), potencialmente aumentando a conversão. Contudo, essa ação aumenta drasticamente o risco de **perda de tracking e atribuição**, pois a "ponte" que conecta a sessão da Méliuz à compra no parceiro se torna mais frágil.
+
+O experimento, portanto, não busca apenas aumentar a conversão, mas encontrar o **equilíbrio ótimo** entre oferecer uma melhor UX e garantir a integridade da mensuração e monetização do negócio.
+
+#### **2. Hipóteses do Experimento**
+
+A hipótese macro é que **oferecer uma opção de saída para o navegador externo de forma controlada pode aumentar a conversão líquida, superando as potenciais perdas de atribuição.**
+
+As variantes testam diferentes abordagens para essa oferta:
+
+*   **Hipótese da Variante A (Controle):** A abordagem atual, forçando o uso do IAB, maximiza a receita atribuível, pois a perda de conversão por fricção é menor do que a perda de receita que ocorreria por falhas de atribuição em um navegador externo.
+*   **Hipótese da Variante B (Header):**
+    *   **Primária:** Ao tornar a opção de saída para o navegador externo **altamente visível** (no header e no fluxo de login), reduziremos significativamente a fricção para um grande número de usuários, resultando no **maior aumento da taxa de conversão** entre as três variantes.
+    *   **Secundária (Risco):** A alta visibilidade também levará a uma **adoção massiva** da saída para o navegador externo, maximizando o risco de perda de atribuição. A hipótese é que o ganho de conversão compensará essa perda.
+*   **Hipótese da Variante C (Config):**
+    *   **Primária:** Ao "esconder" a opção de saída em um menu de configurações, oferecemos uma válvula de escape para usuários mais avançados ou que enfrentam problemas específicos (como o de login), sem incentivar a saída em massa do IAB. Isso gerará um **aumento moderado na conversão**, superior ao Controle, mas inferior à Variante B.
+    *   **Secundária (Benefício):** Esta abordagem **minimizará o risco de perda de atribuição** em comparação com a Variante B, pois a maioria dos usuários permanecerá no fluxo controlado do IAB. A hipótese é que este é o melhor trade-off entre UX e tracking.
+
+#### **3. Possíveis Riscos e Trade-offs**
+
+*   **Trade-off Central: Conversão vs. Atribuição:** Este é o eixo do experimento. Uma variante pode mostrar uma alta conversão nos dados que *conseguimos* medir, mas pode estar "vazando" um volume ainda maior de compras não atribuídas. A decisão final dependerá da receita líquida atribuível.
+*   **Viés de Auto-Seleção (Self-Selection Bias):** Os usuários que ativamente escolhem sair para o navegador externo não são uma amostra aleatória. Eles podem ser compradores mais determinados, mais experientes ou que simplesmente enfrentaram um bloqueio (login). Comparar a conversão de quem saiu vs. quem ficou *dentro de uma mesma variante* é analiticamente incorreto para determinar causalidade. A análise deve ser feita comparando o resultado agregado do grupo A vs. B vs. C (Intent-to-Treat).
+*   **Canibalização do Fluxo Padrão:** A nova feature pode simplesmente desviar usuários que já iriam converter no IAB para um fluxo de maior risco (navegador externo), aumentando o risco de tracking sem gerar um ganho líquido de conversão.
+*   **Fragmentação da Experiência:** Oferecer múltiplas opções de navegação pode confundir alguns usuários e quebrar a consistência da experiência do app.
+*   **Complexidade Técnica e de Tracking:** Suportar e monitorar múltiplos fluxos de saída aumenta a complexidade de engenharia e a superfície de possíveis bugs de tracking. A instrumentação (como visto nas URLs) se torna mais complexa e precisa ser rigorosamente validada.
+
+#### **4. Possíveis Métricas a Serem Avaliadas**
+
+Para avaliar o experimento de forma robusta, precisaremos de um conjunto de métricas primárias, secundárias e de guarda (guardrails).
+
+*   **Métricas Primárias (de Decisão):**
+    *   **Receita por Saída (Revenue per Visit - RPV):** `SUM(gmv_atribuido) / COUNT(visits)`. Esta é a métrica mais importante, pois combina a taxa de conversão com o valor da compra, refletindo o impacto financeiro líquido.
+    *   **Taxa de Conversão de Compra por Saída:** `COUNT(compras_atribuidas) / COUNT(visits)`. Mede a eficiência de cada variante em gerar uma compra atribuída.
+
+*   **Métricas Secundárias (de Comportamento e Diagnóstico):**
+    *   **Taxa de Adoção da Saída Externa:** `% de visitas que utilizaram a opção "Abrir no navegador"`. Essencial para entender o quanto as variantes B e C de fato alteraram o comportamento do usuário.
+    *   **Distribuição de Canal de Saída:** Para cada variante, qual a proporção de saídas `inapp` vs. `browserdefault`.
+    *   **Análise de Funil por Ponto de Saída:** (Para B e C) Qual a taxa de adoção da saída pelo `header` vs. `config` vs. `login`. Isso ajuda a entender qual gatilho é mais relevante.
+    *   **GMV Médio por Transação (AOV):** Para verificar se as variantes atraem compradores de maior ou menor valor.
+
+*   **Métricas de Risco (Guardrail Metrics):**
+    *   **Taxa de Atribuição (Proxy):** Embora não seja possível medir diretamente as perdas, podemos monitorar a saúde geral do sistema. Uma queda abrupta na taxa de conversão geral para parceiros específicos durante o teste pode ser um sinal de falha de atribuição em larga escala.
+    *   **Impacto por Parceiro:** A performance das variantes pode ser diferente dependendo da qualidade do site mobile do parceiro. É crucial segmentar os resultados pelos principais parceiros.
+
+#### **5. Possíveis Limitações da Análise**
+
+*   **O Ponto Cego da Atribuição:** A principal limitação é que o dataset `transactions.csv` conterá **apenas as compras que foram atribuídas com sucesso**. Não conseguiremos observar as compras que ocorreram no navegador externo mas cujo tracking foi perdido. A decisão será baseada no impacto medido na receita *atribuível*, o que é um proxy para a receita total.
+*   **Efeitos de Longo Prazo:** O teste mede o impacto imediato na conversão. Ele não captura possíveis efeitos de longo prazo na retenção ou no comportamento futuro do usuário (ex: um usuário que aprende a usar o navegador externo pode passar a fazê-lo sempre, aumentando o risco de forma contínua).
+*   **Efeito Novidade:** A interação com as novas opções de saída (especialmente na Variante B) pode ser inflada inicialmente porque a feature é nova. O comportamento pode se estabilizar em um nível diferente após o período de teste.
+*   **Segmentação:** A análise pode ser limitada pela ausência de dados demográficos, de sistema operacional (iOS/Android, que têm comportamentos de tracking distintos) ou de tempo de vida do usuário, que poderiam revelar insights mais profundos.
