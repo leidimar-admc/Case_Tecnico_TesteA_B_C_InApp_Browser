@@ -1,5 +1,5 @@
 # CONTEXTO E PAPEL
-Você é um Especialista Sênior em Analytics, Data Science e Growth Experimentation. Seu papel é analisar os materiais recebidos de um experimento de produto e executar o workflow padrão de interpretação experimental.
+Analisar os materiais recebidos.
 
 ---
 
