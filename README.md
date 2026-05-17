@@ -5,13 +5,17 @@ Framework operacional orientado por IA para análise, validação e tomada de de
 ## O projeto inclui:
 
 - framework reutilizável de análise experimental orientado por IA
-  > Guia de utilização
-  > Arquivos de parametro
-  > Prompts para analise, validação e governança
-  > Notebook de processamento de dados
-  
+  -Guia de utilização
+  -Arquivos de parametro
+  -Prompts para analise, validação e governança
+  -Notebook de processamento de dados
+   
 - análise de teste In- App Browser
-
+  -Análise de contexto do teste
+  -Analise do teste e recomendação
+  -Proposta de melhoria experimental
+  -Apresentação executiva de resultados do teste
+  
 ---
 
 # 🛠️ Ferramentas Utilizadas
@@ -29,41 +33,3 @@ Framework operacional orientado por IA para análise, validação e tomada de de
 | Markdown | documentação metodológica e estruturação do framework |
 | CSV | armazenamento dos outputs executivos e datasets analíticos |
 ---
-
-## ▶️ Como Executar
-Acesse o Databricks Community Edition.
-
-Faça login na sua conta.
-
-Crie e configure um cluster.
-
-Importe o notebook (.py ou .dbc) via File > Import.
-
-Execute todos os comandos utilizando Run All.
-
-## 🔍 Análise do teste e recomendação
-
-🔗 Coleta de dados: Download dos arquivos diretamente no Databricks via requisição HTTP.
-
-🧹 Tratamento dos dados: Conversão de tipos, tratamento de valores nulos e preparação das tabelas.
-
-🔎 Análise exploratória: Avaliação dos campos, identificação de padrões e geração de gráficos.
-
-📊 Cálculo de métricas: Análises estatísticas descritivas e gráficas.
-
-🧠 Testes estatísticos: Verificação de significância estatística (ex.: Teste T).
-
-💰 Análise de viabilidade financeira: Avaliação dos impactos financeiros da estratégia proposta.
-
-## 📂 Estrutura do Repositório
-
-📦 case_ifood
-
-├── 📁 notebooks/            # Notebooks de tratamento e análise
-
-├── 📄 relatorio_final_case_ifood.pdf   # Relatório final com os resultados
-
-├── 📄 README.md             # Este arquivo
-
-## 📑 Relatório
-O relatório final (relatorio_final_case_ifood.pdf) apresenta as conclusões, gráficos e recomendações baseadas na análise dos dados.
