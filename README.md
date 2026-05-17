@@ -1,21 +1,25 @@
-# 📊💰In-App Browser Experimentation Framework 🩷🛍️
+# 📊Méliuz Shopping - Experimentation & Analytics Framework🩷🛍️
 
+Framework operacional orientado por IA para análise, validação e tomada de decisão em experimentos de produto relacionados a tracking, atribuição, UX mobile e navegação In-App Browser. 
 
-Framework operacional para análise, validação e recomendação de experimentos relacionados à navegação In-App Browser, tracking de atribuição e comportamento de saída para browser externo. **Shopping Méliuz**
+## O projeto inclui:
 
-O projeto inclui:
-
-- framework reutilizável de análise de experimentos
-- reconstrução de variantes via tracking
-- validação automatizada de consistência
-- análise comportamental de navegação
-- avaliação de impacto em conversão e atribuição
-- camada de governança analítica
-- agente operacional baseado em IA
-- geração de recomendações executivas
-- estrutura de PRD para próximas iterações
-- plano de instrumentação e experimentação
-
+- framework reutilizável de análise experimental orientado por IA
+- arquitetura operacional separando camada analítica e camada cognitiva
+- reconstrução de variantes e fluxos via tracking parameters
+- parsing e validação segura de tracking URLs e parâmetros mz_*
+- validação automatizada de granularidade, cardinalidade e consistência analítica
+- reconstrução comportamental de jornadas mobile e navegação externa
+- análise de trade-offs entre UX, atribuição e conversão
+- validação estatística de métricas experimentais
+- challenge iterativo de causalidade, vieses e inferências analíticas
+- camada de governança e revisão crítica do uso de IA
+- geração supervisionada de recomendações executivas
+- framework reutilizável para futuros testes de produto
+- estrutura de decisão experimental baseada em métricas, guardrails e risco operacional
+- documentação metodológica e reprodutibilidade analítica
+- estruturação de PRDs, rollout criteria e planos de instrumentação
+- arquitetura escalável para futuras análises de experimentação e tracking
 ---
 
 ## 🚀 Tecnologias e Bibliotecas Utilizadas
