@@ -42,7 +42,7 @@ Este guia orienta o passo a passo para a atualização de dados, processamento e
 1. Acesse o [Google AI Studio (New Chat)](https://aistudio.google.com/prompts/new_chat).
 2. Em *Explore Google models*, clique em **Code and Chat**.
 3. No menu lateral direito, realize as seguintes configurações:
-   * **Model:** Selecione `Gemini 1.5 Pro` (ou a versão recomendada mais recente do Pro).
+   * **Model:** Selecione `Gemini 2.5 Pro` (ou a versão recomendada mais recente do Pro).
    * **System Instructions:** Clique e cole o conteúdo do arquivo `system_instructions.md`.
    * **Nome do Agente:** Dê um nome identificável. *Sugestão:* `Méliuz Shopping [Agente de Análise de Testes de Produto]`
    * **Code Execution:** Ativar (`ON`).
