@@ -17,6 +17,15 @@ experiment_analysis_UP.ipynb
 
 
 Menu lateral esquerdo > ícone de pasta "Arquivos"
-rodar notebooks
+Importe os CSVs com os dados do novo teste
+Após o carregamento > No menu superior >  Clique em "Executar Tudo" para rodar o notebook
+Valide os output intermediarios 
+O script exporta os arquivos agrupados que irão para a IA
+No Menu lateral de arquivos, faça dowload de:
+'variant_summary.csv'
+'flow_summary.csv'
+'variant_flow_summary.csv'
+'experiment_dataset_sample_small.csv'
+'significance_results.csv'
 subir outputs
 executar workflow IA
