@@ -40,4 +40,8 @@ Méliuz Shopping [Agente de análise de testes de produto]
 No cursor de conversa, no + adicione os arquivos.
 contexto_produto.md (Informações gerais de como funciona o contexto de testes de produto)
 Enunciado_Teste.md (Aqui é onde você deve informar regras e premissas das bases do teste para que o IA saiba)
-Fluxo visual 
+Fluxo visual Exemplo: "Case PM - Teste A_B_C InApp Browser.pdf" disponivel nesse documento
+E mande em conjunto com o propt1
+>clique Run
+Obs: Esse prompt serve para entender o produto antes dos dados
+
