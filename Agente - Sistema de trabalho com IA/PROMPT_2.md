@@ -1,4 +1,3 @@
-# CONTEXTO E PAPEL
 Analisar os materiais recebidos.
 
 ---
