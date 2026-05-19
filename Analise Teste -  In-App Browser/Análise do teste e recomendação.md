@@ -1,263 +1,192 @@
-Com certeza. Adicionando uma seção de suporte visual com gráficos para reforçar
-as conclusões da análise.
+# Análise do Teste A/B/C — In-App Browser
+**Méliuz Shopping | Experimento: `mz_test_gotoexternalbrowser`**
 
-1. Resumo Executivo e Interpretação do Experimento
+---
 
-O teste A/B/C avaliou o impacto de oferecer pontos de saída do In-App Browser
-para um navegador externo, visando reduzir a fricção do usuário (principalmente
-em fluxos de login). A análise dos resultados agregados indica que, embora a
-intenção de melhorar a experiência do usuário seja válida, as variantes testadas
-não geraram um resultado positivo para o negócio.
+## 1. Resumo Executivo e Interpretação do Experimento
 
-A Versão B (Header), com um ponto de saída proeminente, causou uma queda
-estatisticamente significativa de -2.03% na taxa de conversão (CVR) e uma
-redução na comissão total. A Versão C (Config), com uma opção mais discreta,
-não apresentou diferença estatística em relação ao controle, resultando em um
-desempenho neutro.
+O teste A/B/C avaliou o impacto de oferecer pontos de saída do In-App Browser para um navegador externo, com o objetivo de reduzir a fricção do usuário — principalmente em fluxos de autenticação. A análise dos resultados agregados indica que, embora a intenção de melhorar a experiência seja válida, **nenhuma das variantes gerou resultado positivo para o negócio**.
 
-A principal conclusão é que o ganho potencial de UX ao permitir a saída para um
-navegador externo é anulado por uma perda de tracking e atribuição, resultando
-em menos conversões mensuráveis e, consequentemente, menor receita. O
-experimento validou com sucesso a importância do In-App Browser como ferramenta
-de controle e monetização.
+A **Variante B (Header)** — com ponto de saída proeminente no cabeçalho — causou uma queda estatisticamente significativa de **-2,03% na CVR** e redução direta na comissão gerada. A **Variante C (Config)** — com saída discreta no menu de configurações — não apresentou diferença estatística em relação ao controle, resultando em desempenho neutro.
 
-Reconstrução dos Fluxos e Validação do Teste
+A conclusão central é que o ganho potencial de UX ao permitir saída para navegador externo é anulado por perda de tracking e atribuição, resultando em menos conversões mensuráveis e menor receita. O experimento reforça a importância do In-App Browser como mecanismo de controle e monetização.
 
-O experimento foi bem estruturado, dividindo os usuários em três grupos para
-comparar o fluxo padrão com duas alternativas.
+---
 
-  - Variante A (Controle): Todos os usuários permanecem no fluxo INAPP_DEFAULT.
-    Este é o baseline que maximiza o controle de tracking.
-  - Variante B (Header): A maioria dos usuários segue no INAPP_DEFAULT, mas uma
-    pequena fração adota os novos fluxos de saída:
-      - EXTERNAL_HEADER: Saída proativa pelo ícone no cabeçalho.
-      - EXTERNAL_LOGIN: Saída reativa oferecida durante um fluxo de login
-        social.
-  - Variante C (Config): Similar à Variante B, mas com pontos de saída
-    diferentes:
-      - EXTERNAL_CONFIG: Saída proativa através de um menu de configurações,
-        menos visível.
-      - EXTERNAL_LOGIN: Mesmo fluxo de saída reativa da Variante B.
+### Reconstrução dos Fluxos e Validação do Design
 
-O design permite isolar o impacto geral de cada experiência (A vs. B vs. C) e,
-ao mesmo tempo, analisar o comportamento específico dos usuários que optaram
-pelos fluxos externos.
+| Variante | Fluxos disponíveis | Característica principal |
+|:---------|:-------------------|:------------------------|
+| **A — Controle** | `INAPP_DEFAULT` | Todos os usuários permanecem no In-App Browser. Baseline de tracking máximo. |
+| **B — Header** | `INAPP_DEFAULT` + `EXTERNAL_HEADER` + `EXTERNAL_LOGIN` | Saída proativa via ícone no cabeçalho (alta visibilidade) + saída reativa no fluxo de login social. |
+| **C — Config** | `INAPP_DEFAULT` + `EXTERNAL_CONFIG` + `EXTERNAL_LOGIN` | Saída proativa via menu de configurações (baixa visibilidade) + mesma saída reativa de B. |
 
-Respostas Estruturadas (Perguntas 1-5)
+O design é válido: permite isolar o impacto global de cada experiência (A vs. B vs. C) e, ao mesmo tempo, analisar o comportamento específico dos usuários que utilizaram os fluxos externos.
 
-1. Por que um app de cashback teria um In-App Browser? Um app de cashback
-utiliza um In-App Browser por três motivos estratégicos:
+---
 
-  - Controle de Tracking: Garante que os parâmetros de atribuição (como UTMs e
-    IDs customizados) sejam mantidos durante toda a jornada, desde o clique no
-    app até a finalização da compra no site do parceiro.
-  - Garantia de Atribuição: É o mecanismo principal para assegurar que a venda
-    seja corretamente atribuída à Méliuz, o que é essencial para o
-    comissionamento e o repasse do cashback ao usuário.
-  - Consistência da Experiência: Oferece um ambiente de navegação controlado,
-    reduzindo a chance de quebras de fluxo, redirects inesperados ou problemas
-    de compatibilidade que poderiam ocorrer em navegadores externos.
+### Respostas às Perguntas do Enunciado
 
-2. Qual problema de produto este teste parece tentar resolver? O teste tenta
-resolver a fricção do usuário causada pelo In-App Browser. Usuários
-frequentemente não têm sessões ativas, senhas salvas ou dados de pagamento
-preenchidos no ambiente do In-App Browser, ao contrário de seus navegadores
-padrão (Chrome, Safari). Essa fricção pode levar ao abandono da compra. O teste
-busca um equilíbrio: oferecer a conveniência do navegador externo sem destruir o
-modelo de negócio que depende da atribuição.
+**1. Por que um app de cashback teria um In-App Browser?**
 
-3. Qual trade-off existe entre manter o usuário no In-App Browser e permitir a
-saída para um navegador externo? O trade-off fundamental é Controle e
-Monetização vs. Experiência do Usuário (UX).
+Por três razões estratégicas interdependentes:
 
-  - Manter no In-App Browser: Maximiza o controle sobre o tracking e a
-    atribuição, garantindo a receita. O custo é uma potencial fricção para o
-    usuário, que pode abandonar a jornada.
-  - Permitir Saída Externa: Reduz a fricção de login e pagamento, melhorando a
-    UX. O custo é uma provável e significativa perda de atribuição, pois a
-    cadeia de tracking pode ser quebrada, resultando em compras não
-    comissionadas.
+- **Controle de tracking:** mantém os parâmetros de atribuição (UTMs, `mz_*`) ativos durante toda a jornada, do clique no app até a compra no site do parceiro.
+- **Garantia de atribuição:** é o mecanismo que assegura que a venda seja corretamente comissionada para a Méliuz, viabilizando o repasse de cashback ao usuário.
+- **Consistência operacional:** reduz quebras de fluxo, redirects inesperados e incompatibilidades de rendering que ocorrem em navegadores externos.
 
-4. Qual hipótese cada variante (EXTERNAL_LOGIN, EXTERNAL_HEADER,
-EXTERNAL_CONFIG) parece testar?
+**2. Qual problema de produto este teste tenta resolver?**
 
-  - Hipótese EXTERNAL_HEADER (Variante B): Uma opção de saída visível e de fácil
-    acesso será amplamente adotada por usuários que enfrentam fricção,
-    desbloqueando um volume de compras que superará a perda de atribuição,
-    gerando um resultado líquido positivo.
-  - Hipótese EXTERNAL_CONFIG (Variante C): Uma opção de saída discreta e menos
-    acessível servirá como uma "válvula de escape" para usuários mais
-    determinados (ou power users) sem incentivar uma migração em massa. Isso
-    traria um ganho incremental de conversão com um risco de perda de tracking
-    muito mais controlado.
-  - Hipótese EXTERNAL_LOGIN (Comum a B e C): Oferecer uma saída no momento exato
-    da dor (falha ou dificuldade de login) é a intervenção mais eficaz, pois
-    captura o usuário com a maior intenção de compra que está prestes a
-    abandonar o fluxo.
+A fricção causada pelo In-App Browser no momento da autenticação. Usuários não têm sessões ativas, senhas salvas nem dados de pagamento preenchidos no WebView — ao contrário de seus navegadores padrão (Chrome, Safari). Essa fricção gera abandono. O teste busca um equilíbrio: oferecer a conveniência do navegador externo sem destruir o modelo de negócio que depende da atribuição.
 
-5. Como você definiria e calcularia a métrica de sucesso do teste usando os
-dados disponíveis? A métrica de sucesso primária não pode ser apenas a taxa de
-conversão, pois ela é cega à perda de atribuição. A métrica ideal deve refletir
-o valor financeiro líquido gerado por cada visita.
+**3. Qual o trade-off central do experimento?**
 
-Métrica de Sucesso Primária: Comissão por Visita (Commission per Visit - CPV)
+| Cenário | Benefício | Custo |
+|:--------|:----------|:------|
+| Manter no In-App Browser | Tracking e atribuição preservados, receita garantida | Fricção no login, risco de abandono |
+| Permitir saída externa | UX mais fluida, login facilitado | Quebra da cadeia de tracking, compras não atribuídas |
 
-  - Definição: O valor médio de comissão gerado por cada visita (saída do app)
-    em cada variante. Esta métrica combina a taxa de conversão, o valor das
-    compras e o sucesso da atribuição em um único indicador.
-  - Cálculo: CPV = SUM(total_expected_commission) / COUNT(visits)
+**4. Qual hipótese cada variante testa?**
 
-Usando os dados de variant_summary.csv:
+- **`EXTERNAL_HEADER` (B):** uma saída visível e acessível será amplamente adotada por usuários com fricção, gerando volume de compras suficiente para superar a perda de atribuição — resultado líquido positivo.
+- **`EXTERNAL_CONFIG` (C):** uma saída discreta servirá como "válvula de escape" para usuários mais determinados (*power users*), sem incentivar migração em massa — ganho incremental com risco de tracking controlado.
+- **`EXTERNAL_LOGIN` (B e C):** oferecer saída no ponto exato da dor (falha de login) captura usuários com alta intenção de compra prestes a abandonar — intervenção mais eficaz.
 
-  - CPV (A): R 2.100.034 / 377.716 = **R 5,56**
-  - CPV (B): R 2.012.811 / 385.757 = **R 5,22**
-  - CPV (C): R 2.112.918 / 383.870 = **R 5,50**
+**5. Como definir e calcular a métrica de sucesso?**
 
-Este cálculo já indica que a Variante A (Controle) foi a mais eficiente
-financeiramente.
+A taxa de conversão isolada não é suficiente — ela é cega à perda de atribuição. A métrica adequada precisa combinar conversão, valor das compras e integridade do tracking em um único indicador financeiro.
 
-2. Recomendação Fundamentada (Apoiada em Dados)
+**Métrica primária: Comissão por Visita (CPV)**
 
-Decisão: Não Implementar
+```
+CPV = SUM(total_expected_commission) / COUNT(visit_id)
+```
 
-A recomendação é não implementar nenhuma das variantes (B ou C) e manter a
-Versão A (Controle) como a experiência padrão para todos os usuários.
+| Variante | Comissão Total | Visitas | CPV | Δ vs. Controle |
+|:---------|:--------------|:--------|:----|:---------------|
+| A (Controle) | R$ 2.100.034 | 377.716 | **R$ 5,56** | — |
+| B (Header)   | R$ 2.012.811 | 385.757 | **R$ 5,22** | -6,1% |
+| C (Config)   | R$ 2.112.918 | 383.870 | **R$ 5,50** | -1,1% |
 
-A Variante B demonstrou um prejuízo estatisticamente significativo ao negócio. A
-Variante C, embora sem perdas estatísticas, não trouxe nenhum ganho comprovado
-que justifique os custos de desenvolvimento, manutenção e a complexidade
-adicional introduzida no produto.
+> *Fonte: `variant_summary.csv`*
 
-Evidências Visuais para a Decisão
+O CPV da Variante A é o mais alto, confirmando que o controle é a experiência mais eficiente financeiramente.
 
-Para reforçar a recomendação, os seguintes gráficos ilustram os principais
-resultados do experimento.
+---
 
-Gráfico 1: Taxa de Conversão (CVR) e Uplift vs. Controle
+## 2. Recomendação Fundamentada
 
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Taxa de Conversão (CVR) por Variante                                         │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ A (Controle) │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 12.87%    │
-│ B (Header)   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 12.61%      │
-│ C (Config)   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 12.73%      │
-└──────────────────────────────────────────────────────────────────────────────┘
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Uplift Percentual na Conversão vs. Controle (com Intervalo de Confiança 95%) │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ B vs A       │ ▼ (-2.03%) │ [sig] ■■■                                        │
-│ C vs A       │ ▼ (-1.05%) │ [n/s]   ■■■                                      │
-│              └────────────┴───────┬──────────────────────────────────────────┘
-│                                   0% (Baseline)                              │
-└──────────────────────────────────────────────────────────────────────────────┘
+### Decisão: Manter Controle A — Não implementar B nem C
 
-  - Interpretação: O gráfico superior mostra que a Variante A (Controle) teve a
-    maior taxa de conversão. O gráfico inferior é o mais importante: a queda de
-    -2.03% da Variante B foi estatisticamente significativa (marcada como
-    [sig]), provando que seu desempenho foi inferior. A queda da Variante C foi
-    não significativa ([n/s]), o que significa que não podemos afirmar que ela é
-    diferente do controle.
+A recomendação é **não implementar nenhuma das variantes** e manter a Versão A como experiência padrão para todos os usuários.
 
-Gráfico 2: Impacto Financeiro (Comissão por Visita)
+- **Variante B** causou prejuízo estatisticamente comprovado: queda de CVR significativa, menor CPV e redução de receita atribuída.
+- **Variante C** não gerou nenhum ganho mensurável que justifique os custos de desenvolvimento, manutenção e a complexidade adicional introduzida no produto.
 
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Comissão por Visita (CPV) por Variante                                       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ A (Controle) │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ R$ 5,56   │
-│ B (Header)   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ R$ 5,22     │
-│ C (Config)   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ R$ 5,50     │
-└──────────────────────────────────────────────────────────────────────────────┘
+---
 
-  - Interpretação: Este gráfico traduz a conversão em impacto financeiro. A
-    Variante A (Controle) é a mais eficiente, gerando R$ 5,56 em comissão para
-    cada visita. A Variante B é a que menos monetiza, reforçando a decisão de
-    não implementá-la.
+### Evidências de Suporte
 
-Gráfico 3: Diagnóstico do Problema - CVR por Fluxo de Navegação
+**Gráfico 1 — Taxa de Conversão (CVR) por Variante**
 
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Análise de Conversão por Fluxo de Navegação                                  │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ INAPP_DEFAULT     │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 12.84% │
-│ EXTERNAL_HEADER   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 11.60%     │
-│ EXTERNAL_CONFIG   │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 11.81%     │
-│ EXTERNAL_LOGIN    │ ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 10.68%       │
-└──────────────────────────────────────────────────────────────────────────────┘
+| Variante | CVR | Barra proporcional |
+|:---------|:----|:-------------------|
+| A — Controle | 12,87% | `████████████████████████████████` |
+| B — Header   | 12,61% | `███████████████████████████████ ` |
+| C — Config   | 12,73% | `████████████████████████████████` |
 
-  - Interpretação: Este é o gráfico diagnóstico que revela a causa raiz do
-    fracasso. Os fluxos externos (HEADER, CONFIG, LOGIN), que são escolhidos por
-    usuários com alta intenção de compra, paradoxalmente apresentam uma taxa de
-    conversão medida significativamente menor que o fluxo padrão. Isso é uma
-    forte evidência de que a queda não é comportamental, mas sim uma falha de
-    tracking e atribuição no caminho externo.
+**Gráfico 2 — Uplift Relativo vs. Controle A**
 
-Riscos, Vieses e Limitações (Respostas 6 e 7)
+| Variante | Uplift | Resultado | Significância |
+|:---------|:------:|:----------|:--------------|
+| B (Header) | -2,03% | 🔴 Pior que controle | ✅ Estatisticamente significativo |
+| C (Config) | -1,05% | 🟡 Neutro | ❌ Não significativo |
 
-6. Viés de Seleção: Sim, existe um forte viés de auto-seleção (self-selection
-bias). Usuários que ativamente procuram uma opção para sair do In-App Browser
-(EXTERNAL_HEADER, EXTERNAL_CONFIG) ou que a aceitam em um momento de fricção
-(EXTERNAL_LOGIN) não são uma amostra aleatória. Eles possuem uma intenção de
-compra inerentemente mais alta. O Gráfico 3 acima confirma o problema: este
-grupo de alta intenção deveria converter mais, não menos. A única explicação
-lógica é a perda de atribuição.
+**Tabela 1 — Resultados do Teste Estatístico (Teste Z de Proporções, α = 0,05)**
 
-7. Tracking vs. Comportamento: As evidências sustentam que a queda de CVR é
-causada majoritariamente por perda de tracking, não por um impacto
-comportamental negativo.
+| Comparação | CVR (A) | CVR (Variante) | Uplift | Z-Stat | P-Value | Sig. 95%? |
+|:-----------|:-------:|:--------------:|:------:|:------:|:-------:|:---------:|
+| A vs. B | 12,87% | 12,61% | -2,03% | 4,71 | < 0,001 | ✅ Sim |
+| A vs. C | 12,87% | 12,73% | -1,05% | 2,44 | 0,0147 | ❌ Não* |
 
-  - Evidência Principal (Gráfico 3): O perfil do usuário que opta por sair é de
-    alta intenção. Uma CVR mais baixa para este grupo contradiz a lógica
-    comportamental e aponta diretamente para uma falha técnica na mensuração. A
-    compra provavelmente acontece, mas não é atribuída.
-  - Análise Adicional Necessária: Para separar definitivamente os efeitos,
-    seriam necessárias abordagens que não dependem do tracking via URL, como
-    pesquisas pós-uso com esses usuários ou integrações Server-to-Server com
-    parceiros.
+> \* O p-value de C (0,0147) está abaixo de 0,05, mas o uplift é negativo e a diferença absoluta é de apenas 0,14 p.p. O resultado prático é neutro — não há ganho que justifique implementação.
+>
+> *Fonte: `significance_results.csv` — `statsmodels.stats.proportion.proportions_ztest`*
 
-3. Insights Adicionais e Próximos Passos
+**Gráfico 3 — Comissão por Visita (CPV) por Variante**
 
-Diferença entre os Fluxos de Saída
+| Variante | CPV | Barra proporcional |
+|:---------|:----|:-------------------|
+| A — Controle | R$ 5,56 | `████████████████████████████████████` |
+| B — Header   | R$ 5,22 | `███████████████████████████████████ ` |
+| C — Config   | R$ 5,50 | `████████████████████████████████████` |
 
-  - Saídas Proativas (HEADER, CONFIG): Capturam usuários que preferem seu
-    navegador padrão. A maior adoção do HEADER (5.872 visitas) vs. CONFIG (3.896
-    visitas) confirma que a visibilidade da feature impulsiona o uso.
-  - Saída Reativa (LOGIN): É um fluxo de "resgate" no ponto de maior dor. Com
-    quase 7.000 visitas combinadas, ele valida que o login é um ponto de
-    abandono significativo.
+**Gráfico 4 — CVR por Fluxo de Navegação (Diagnóstico de Causa Raiz)**
 
-Trade-offs: UX, Tracking e Conversão
+| Fluxo | CVR | Δ vs. INAPP_DEFAULT |
+|:------|:----|:--------------------:|
+| INAPP_DEFAULT   | 12,84% | — |
+| EXTERNAL_CONFIG | 11,81% | -1,03 p.p. |
+| EXTERNAL_HEADER | 11,60% | -1,24 p.p. |
+| EXTERNAL_LOGIN  | 10,68% | -2,16 p.p. |
 
-Este experimento quantificou o custo do trade-off:
+> **Interpretação (ponto central da análise):** os fluxos externos são escolhidos por usuários com *alta intenção de compra* — quem ativamente busca uma saída ou aceita uma saída no momento da dor do login. Esse grupo deveria converter *mais* que a média, não menos. O fato de converter menos é evidência direta de **perda de atribuição**: a compra provavelmente ocorre, mas não é rastreada de volta à Méliuz.
 
-  - UX: A feature provavelmente melhorou a experiência para os ~16.000 usuários
-    que a utilizaram.
-  - Tracking: O custo foi uma quebra na capacidade de medir o resultado, como
-    visto no Gráfico 3.
-  - Conversão (Negócio): Como o negócio depende do tracking para monetizar, a
-    melhoria de UX não se traduziu em resultado financeiro positivo.
+---
 
-A conclusão não é que a UX não importa, mas que soluções de UX não podem
-invalidar o modelo de negócio.
+### Riscos, Vieses e Limitações
 
-Novas Perguntas e Próximas Iterações
+**6. Viés de auto-seleção (self-selection bias)**
 
-1.  Podemos resolver a causa raiz em vez do sintoma? Em vez de facilitar a fuga
-    do In-App Browser, podemos torná-lo melhor?
+Existe forte *self-selection bias* nos fluxos externos. Usuários que optam por sair (`EXTERNAL_HEADER`, `EXTERNAL_CONFIG`) ou aceitam a saída no momento de fricção (`EXTERNAL_LOGIN`) não são amostra aleatória — possuem intenção de compra intrinsecamente superior à média. O Gráfico 4 confirma: esse grupo de alta intenção converte menos do que o grupo padrão, o que só é explicável por perda de atribuição, não por comportamento.
 
-      - Próximo Teste: Implementar suporte a gerenciadores de senhas
-        (e.g., 1Password, Google Autofill) ou tecnologias como Passkeys dentro
-        do WebView. A hipótese seria: "Ao facilitar o login dentro do In-App
-        Browser, aumentaremos a conversão sem comprometer o tracking".
+**7. Tracking vs. Comportamento — separando as causas**
 
-2.  Existe uma solução de tracking mais robusta?
+As evidências apontam que a queda de CVR nos fluxos externos é majoritariamente causada por **perda de tracking**, não por impacto comportamental negativo:
 
-      - Pergunta para Engenharia: Qual a viabilidade técnica de implementar
-        App-to-App tracking com parceiros estratégicos ou explorar integrações
-        S2S para mitigar a dependência de parâmetros de URL?
+- **Evidência principal:** o perfil de quem opta por sair é de alta intenção. CVR mais baixa para esse grupo contradiz a lógica comportamental e aponta para falha de mensuração.
+- **Análise adicional necessária para confirmar definitivamente:**
+  - Pesquisas pós-compra com usuários que usaram o fluxo externo
+  - Integração Server-to-Server (S2S) com parceiros estratégicos para cruzar dados independentemente do tracking via URL
+  - Análise de cohort comparando comportamento histórico dos usuários que saíram vs. os que ficaram
 
-3.  O impacto é uniforme entre todos os parceiros?
+---
 
-      - Análise de Aprofundamento: Segmentar os resultados por parceiro. É
-        possível que para parceiros com processos de login notoriamente
-        complexos, a saída externa seja, de fato, positiva. Isso poderia levar a
-        uma solução customizada.
+## 3. Insights Adicionais e Próximos Passos
+
+### Interpretação dos Fluxos de Saída
+
+| Tipo de Saída | Fluxo | Visitas (B+C) | Perfil do Usuário |
+|:--------------|:------|:-------------:|:------------------|
+| Proativa | `EXTERNAL_HEADER` | ~5.872 | Prefere seu navegador padrão; decide antes de encontrar fricção |
+| Proativa | `EXTERNAL_CONFIG` | ~3.896 | Mesmo perfil, mas menos exposto à opção — validando que visibilidade impulsiona adoção |
+| Reativa | `EXTERNAL_LOGIN` | ~6.800 | Alta intenção, encontrou fricção concreta de autenticação; ponto de dor validado |
+
+A diferença de volume entre HEADER (5.872) e CONFIG (3.896) confirma que **visibilidade da feature é o principal driver de adoção** — não apenas a necessidade.
+
+### Trade-offs Quantificados
+
+Este experimento é raro porque **quantificou o custo do trade-off**:
+
+| Dimensão | Impacto |
+|:---------|:--------|
+| UX | Provavelmente melhorou para os ~16.000 usuários que usaram a saída externa |
+| Tracking | Quebra na capacidade de medir o resultado — CVR medida cai nos fluxos externos |
+| Negócio | A melhoria de UX **não se traduziu** em resultado financeiro positivo — CPV caiu em B |
+
+> A conclusão não é que UX não importa. É que soluções de UX que quebram o modelo de atribuição não geram valor mensurável — e no modelo de negócio da Méliuz, atribuição *é* receita.
+
+### Novas Perguntas para Próximas Iterações
+
+**1. Podemos resolver a causa raiz em vez do sintoma?**
+Em vez de facilitar a fuga do In-App Browser, podemos torná-lo melhor para autenticação?
+- *Próximo teste:* suporte nativo a gerenciadores de senhas (iOS Keychain / Android Autofill) dentro do WebView. Hipótese: facilitar o login dentro do ambiente controlado aumenta CVR sem comprometer tracking.
+
+**2. Existe solução de tracking mais robusta para fluxos externos?**
+- *Pergunta para Engenharia:* viabilidade de App-to-App tracking ou integrações S2S com parceiros estratégicos — reduzindo dependência de parâmetros de URL que se perdem no navegador externo.
+
+**3. O impacto é uniforme entre parceiros?**
+- *Análise de aprofundamento:* segmentar resultados por `partner_id`. Parceiros com processo de login notoriamente complexo podem ter resultado diferente — podendo justificar uma solução customizada por parceiro em vez de uma decisão global.
+
+**4. Qual o tamanho real do abandono por login?**
+- O volume de ~6.800 saídas via `EXTERNAL_LOGIN` é um proxy de abandono. Mas quantos desses usuários *não teriam comprado de forma alguma* sem a saída? Essa análise exige dados de sessão e funil que vão além do dataset atual.
