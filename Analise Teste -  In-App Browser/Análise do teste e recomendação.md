@@ -1,192 +1,329 @@
-# Análise do Teste A/B/C — In-App Browser
-**Méliuz Shopping | Experimento: `mz_test_gotoexternalbrowser`**
+<div align="center">
+
+<!-- BANNER SVG -->
+<svg width="900" height="180" viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#111113;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1C1C1E;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="85%" cy="20%" r="40%">
+      <stop offset="0%" style="stop-color:#F72585;stop-opacity:0.25" />
+      <stop offset="100%" style="stop-color:#F72585;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="10%" cy="90%" r="30%">
+      <stop offset="0%" style="stop-color:#F72585;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#F72585;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="180" rx="16" fill="url(#bg)"/>
+  <rect width="900" height="180" rx="16" fill="url(#glow1)"/>
+  <rect width="900" height="180" rx="16" fill="url(#glow2)"/>
+  <rect x="0" y="0" width="900" height="5" rx="0" fill="#F72585"/>
+  <text x="48" y="62" font-family="Georgia,serif" font-size="28" font-style="italic" font-weight="bold" fill="#F72585">méliuz</text>
+  <text x="138" y="62" font-family="Georgia,serif" font-size="28" fill="#FFFFFF">Shopping</text>
+  <rect x="48" y="78" width="60" height="4" rx="2" fill="#F72585"/>
+  <text x="48" y="108" font-family="Arial,sans-serif" font-size="15" fill="#9999AA">Experimentation &amp; Analytics Framework</text>
+  <text x="48" y="132" font-family="Arial,sans-serif" font-size="13" fill="#666677">Case Técnico · PM Pleno · Análise de Experimento A/B/C: In-App Browser</text>
+  <rect x="620" y="30" width="240" height="118" rx="10" fill="#242428" opacity="0.9"/>
+  <rect x="620" y="30" width="240" height="4" rx="0" fill="#F72585" opacity="0.8"/>
+  <text x="740" y="64" font-family="Arial,sans-serif" font-size="11" fill="#9999AA" text-anchor="middle">RESULTADO DO EXPERIMENTO</text>
+  <text x="700" y="100" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="#00C896" text-anchor="middle">A ✓</text>
+  <text x="700" y="122" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">Controle mantido</text>
+  <text x="832" y="100" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="#F72585" text-anchor="middle">-2%</text>
+  <text x="832" y="122" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">CVR em B (sig.)</text>
+  <rect x="763" y="78" width="1" height="52" fill="#2E2E35"/>
+  <rect x="48" y="152" width="90" height="20" rx="10" fill="#2E2E35"/>
+  <text x="93" y="166" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">Maio 2026</text>
+  <rect x="146" y="152" width="96" height="20" rx="10" fill="#2E2E35"/>
+  <text x="194" y="166" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">CONFIDENCIAL</text>
+</svg>
+
+<br/><br/>
+
+![Python](https://img.shields.io/badge/Python-3.10+-1C1C1E?style=for-the-badge&logo=python&logoColor=F72585)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Layer-1C1C1E?style=for-the-badge&logo=pandas&logoColor=F72585)
+![Statsmodels](https://img.shields.io/badge/Statsmodels-Z--Test-1C1C1E?style=for-the-badge&logoColor=F72585)
+![Gemini](https://img.shields.io/badge/Gemini%202.5%20Pro-AI%20Layer-1C1C1E?style=for-the-badge&logo=google&logoColor=F72585)
+![Colab](https://img.shields.io/badge/Google%20Colab-Notebook-1C1C1E?style=for-the-badge&logo=googlecolab&logoColor=F72585)
+![Status](https://img.shields.io/badge/Status-Entregue-00C896?style=for-the-badge)
+
+</div>
 
 ---
 
-## 1. Resumo Executivo e Interpretação do Experimento
+## Navegação rápida
 
-O teste A/B/C avaliou o impacto de oferecer pontos de saída do In-App Browser para um navegador externo, com o objetivo de reduzir a fricção do usuário — principalmente em fluxos de autenticação. A análise dos resultados agregados indica que, embora a intenção de melhorar a experiência seja válida, **nenhuma das variantes gerou resultado positivo para o negócio**.
-
-A **Variante B (Header)** — com ponto de saída proeminente no cabeçalho — causou uma queda estatisticamente significativa de **-2,03% na CVR** e redução direta na comissão gerada. A **Variante C (Config)** — com saída discreta no menu de configurações — não apresentou diferença estatística em relação ao controle, resultando em desempenho neutro.
-
-A conclusão central é que o ganho potencial de UX ao permitir saída para navegador externo é anulado por perda de tracking e atribuição, resultando em menos conversões mensuráveis e menor receita. O experimento reforça a importância do In-App Browser como mecanismo de controle e monetização.
-
----
-
-### Reconstrução dos Fluxos e Validação do Design
-
-| Variante | Fluxos disponíveis | Característica principal |
-|:---------|:-------------------|:------------------------|
-| **A — Controle** | `INAPP_DEFAULT` | Todos os usuários permanecem no In-App Browser. Baseline de tracking máximo. |
-| **B — Header** | `INAPP_DEFAULT` + `EXTERNAL_HEADER` + `EXTERNAL_LOGIN` | Saída proativa via ícone no cabeçalho (alta visibilidade) + saída reativa no fluxo de login social. |
-| **C — Config** | `INAPP_DEFAULT` + `EXTERNAL_CONFIG` + `EXTERNAL_LOGIN` | Saída proativa via menu de configurações (baixa visibilidade) + mesma saída reativa de B. |
-
-O design é válido: permite isolar o impacto global de cada experiência (A vs. B vs. C) e, ao mesmo tempo, analisar o comportamento específico dos usuários que utilizaram os fluxos externos.
+| | Seção | O que você encontra |
+|:-:|:------|:--------------------|
+| 🤖 | [`Agente - Sistema de trabalho com IA/`](#-agente--sistema-de-trabalho-com-ia) | Framework reutilizável: prompts, notebook, outputs analíticos |
+| 📊 | [`Analise Teste - In-App Browser/`](#-analise-teste--in-app-browser) | Análise completa, PRD e apresentação executiva |
+| 🔢 | [Resultados em números](#-resultados-do-experimento) | CVR, CPV e significância estatística por variante |
+| ▶️ | [Como rodar](#%EF%B8%8F-como-executar-a-análise) | Passo a passo para reproduzir a análise |
+| ♻️ | [Como reutilizar](#%EF%B8%8F-reutilização-para-novos-experimentos) | Adaptar o framework para outro teste |
 
 ---
 
-### Respostas às Perguntas do Enunciado
+## 🏷️ Contexto do Experimento
 
-**1. Por que um app de cashback teria um In-App Browser?**
+A Méliuz usa um **In-App Browser** (WebView) para preservar os parâmetros de tracking (`utm_*`, `mz_*`) que garantem a atribuição de cashback. O problema: usuários não têm sessões ativas, senhas salvas ou dados de pagamento preenchidos no WebView — ao contrário de seus navegadores externos (Chrome, Safari). Essa fricção pode gerar abandono.
 
-Por três razões estratégicas interdependentes:
+O experimento testou três versões para quantificar o trade-off entre **UX fluida** e **preservação de atribuição**.
 
-- **Controle de tracking:** mantém os parâmetros de atribuição (UTMs, `mz_*`) ativos durante toda a jornada, do clique no app até a compra no site do parceiro.
-- **Garantia de atribuição:** é o mecanismo que assegura que a venda seja corretamente comissionada para a Méliuz, viabilizando o repasse de cashback ao usuário.
-- **Consistência operacional:** reduz quebras de fluxo, redirects inesperados e incompatibilidades de rendering que ocorrem em navegadores externos.
+| Variante | Nome | Fluxos disponíveis | Hipótese testada |
+|:--------:|:-----|:-------------------|:----------------|
+| **A** | Controle | `INAPP_DEFAULT` | A fricção é custo aceitável para preservar o modelo de negócio |
+| **B** | Header | `INAPP_DEFAULT` + `EXTERNAL_HEADER` + `EXTERNAL_LOGIN` | Compras desbloqueadas superam a perda de atribuição |
+| **C** | Config | `INAPP_DEFAULT` + `EXTERNAL_CONFIG` + `EXTERNAL_LOGIN` | Válvula de escape discreta gera ganho com risco controlado |
 
-**2. Qual problema de produto este teste tenta resolver?**
+---
 
-A fricção causada pelo In-App Browser no momento da autenticação. Usuários não têm sessões ativas, senhas salvas nem dados de pagamento preenchidos no WebView — ao contrário de seus navegadores padrão (Chrome, Safari). Essa fricção gera abandono. O teste busca um equilíbrio: oferecer a conveniência do navegador externo sem destruir o modelo de negócio que depende da atribuição.
+## 🔢 Resultados do Experimento
 
-**3. Qual o trade-off central do experimento?**
+### Performance por Variante
 
-| Cenário | Benefício | Custo |
-|:--------|:----------|:------|
-| Manter no In-App Browser | Tracking e atribuição preservados, receita garantida | Fricção no login, risco de abandono |
-| Permitir saída externa | UX mais fluida, login facilitado | Quebra da cadeia de tracking, compras não atribuídas |
+<div align="center">
 
-**4. Qual hipótese cada variante testa?**
+| Variante | Visitas | CVR | CPV | Comissão Total | Δ CPV vs A | Decisão |
+|:--------:|--------:|:---:|:---:|---------------:|:----------:|:-------:|
+| **A — Controle** | 377.716 | **12,87%** | **R$ 5,56** | R$ 2.100.035 | — | ✅ **MANTER** |
+| B — Header | 385.757 | 12,61% | R$ 5,22 | R$ 2.012.812 | **-6,1%** | ❌ REJEITAR |
+| C — Config | 383.870 | 12,73% | R$ 5,50 | R$ 2.112.918 | -1,1% | ⚠️ NEUTRO |
 
-- **`EXTERNAL_HEADER` (B):** uma saída visível e acessível será amplamente adotada por usuários com fricção, gerando volume de compras suficiente para superar a perda de atribuição — resultado líquido positivo.
-- **`EXTERNAL_CONFIG` (C):** uma saída discreta servirá como "válvula de escape" para usuários mais determinados (*power users*), sem incentivar migração em massa — ganho incremental com risco de tracking controlado.
-- **`EXTERNAL_LOGIN` (B e C):** oferecer saída no ponto exato da dor (falha de login) captura usuários com alta intenção de compra prestes a abandonar — intervenção mais eficaz.
+</div>
 
-**5. Como definir e calcular a métrica de sucesso?**
+> **CPV (Comissão por Visita)** = `SUM(total_expected_commission) / COUNT(visit_id)` — métrica primária que combina conversão, valor e integridade do tracking. Fonte: `variant_summary.csv`.
 
-A taxa de conversão isolada não é suficiente — ela é cega à perda de atribuição. A métrica adequada precisa combinar conversão, valor das compras e integridade do tracking em um único indicador financeiro.
+### Significância Estatística
 
-**Métrica primária: Comissão por Visita (CPV)**
+<div align="center">
+
+| Comparação | Uplift | Z-Stat | P-Value | Significativo (α = 0,05)? |
+|:----------:|:------:|:------:|:-------:|:-------------------------:|
+| **A vs. B** | -2,03% | 3,43 | 0,0006 | ✅ Sim |
+| A vs. C | -1,05% | 1,77 | 0,0763 | ❌ Não |
+
+</div>
+
+*Teste Z de proporções — `statsmodels.stats.proportion.proportions_ztest`. Fonte: `significance_results.csv`.*
+
+### Diagnóstico: CVR por Fluxo de Navegação
+
+<div align="center">
+
+| Fluxo | Visitas | CVR | Δ vs INAPP_DEFAULT |
+|:------|--------:|:---:|:-----------------:|
+| 🔵 INAPP_DEFAULT | 1.180.701 | **12,84%** | — |
+| 🔴 EXTERNAL_CONFIG | 3.896 | 11,81% | -1,03 p.p. |
+| 🔴 EXTERNAL_HEADER | 5.872 | 11,60% | -1,24 p.p. |
+| 🔴 EXTERNAL_LOGIN | 6.996 | 10,68% | -2,16 p.p. |
+
+</div>
+
+> **💡 Insight central:** usuários que optam por sair têm alta intenção de compra e deveriam converter *mais* que a média. O fato de converterem *menos* é forte evidência de **tracking loss** — a compra ocorre, mas não é atribuída à Méliuz.
+
+---
+
+## 📁 Estrutura do Repositório
 
 ```
-CPV = SUM(total_expected_commission) / COUNT(visit_id)
+case_meliuz_PM_TesteA_B_C_InApp_Browser/
+│
+├── 🤖 Agente - Sistema de trabalho com IA/
+│   │
+│   ├── system_instructions.md              ← Identidade, regras e fluxo operacional do agente
+│   ├── PROMPT_1.md                         ← Alinhamento de contexto (pré-dados)
+│   ├── PROMPT_2.md                         ← Análise quantitativa e recomendação
+│   ├── PROMPT_3.md                         ← Proposta de melhoria experimental (PRD)
+│   │
+│   ├── contexto_produto.md                 ← Contexto de experimentação em mobile commerce
+│   ├── Enunciado_Teste.md                  ← Regras, schema e premissas do case
+│   ├── Guia_Passo_a_Passo.md               ← Como executar o workflow completo
+│   ├── Organização.md                      ← Processo analítico, governança e reutilização
+│   │
+│   ├── experiment_analysis.ipynb           ← Notebook Colab — processamento principal
+│   ├── experiment_analysis.py              ← Versão .py do notebook (referência)
+│   ├── Case PM - Teste A_B_C InApp Browser.pdf   ← Material visual das variantes
+│   │
+│   ├── variant_summary.csv                 ← CVR, conversões e financeiro por variante
+│   ├── flow_summary.csv                    ← CVR e financeiro por tipo de fluxo
+│   ├── variant_flow_summary.csv            ← Cruzamento variante × fluxo
+│   ├── significance_results.csv            ← Z-stat, p-value e significância
+│   └── experiment_dataset_sample_small.csv ← Sample comportamental (500 linhas)
+│
+├── 📊 Analise Teste - In-App Browser/
+│   ├── Análise Preliminar [Contexto].md    ← Output PROMPT 1 (raciocínio pré-dados)
+│   ├── Análise do teste e recomendação.md  ← Output PROMPT 2 (análise quantitativa)
+│   ├── melhoria experimental.md            ← Output PROMPT 3 (PRD completa)
+│   └── Meliuz_InAppBrowser_Executive.pptx  ← Apresentação executiva (9 slides)
+│
+└── README.md
 ```
 
-| Variante | Comissão Total | Visitas | CPV | Δ vs. Controle |
-|:---------|:--------------|:--------|:----|:---------------|
-| A (Controle) | R$ 2.100.034 | 377.716 | **R$ 5,56** | — |
-| B (Header)   | R$ 2.012.811 | 385.757 | **R$ 5,22** | -6,1% |
-| C (Config)   | R$ 2.112.918 | 383.870 | **R$ 5,50** | -1,1% |
+---
 
-> *Fonte: `variant_summary.csv`*
+## 🤖 Agente — Sistema de trabalho com IA
 
-O CPV da Variante A é o mais alto, confirmando que o controle é a experiência mais eficiente financeiramente.
+### Arquitetura em duas camadas
+
+```
+┌─────────────────────────────────┐    ┌────────────────────────────────────┐
+│       ANALYTICS LAYER           │    │         COGNITIVE LAYER            │
+│                                 │    │                                    │
+│  Google Colab + Python          │───▶│  Google AI Studio (Gemini 2.5 Pro) │
+│                                 │    │                                    │
+│  • Joins e validações           │    │  • Interpretação experimental      │
+│  • Agregações com grão correto  │    │  • Challenge analítico             │
+│  • Teste Z de proporções        │    │  • Separação hipótese ↔ evidência  │
+│  • Exporta summaries validados  │    │  • Recomendação fundamentada       │
+└─────────────────────────────────┘    └────────────────────────────────────┘
+         ↑ dados brutos                          ↑ summaries validados
+         6 CSVs de input                         5 CSVs de output do Colab
+```
+
+### Esteira de Prompts
+
+```
+   PROMPT 1                      PROMPT 2                    PROMPT 3
+  ──────────                    ──────────                  ──────────
+  Contexto &              →    Análise &              →    PRD &
+  Hipóteses                    Recomendação                Melhoria
+  (sem dados)                  (com summaries)             (sem novos dados)
+       │                             │                          │
+       ▼                             ▼                          ▼
+  Análise Preliminar         Análise do teste e         Melhoria experimental
+  [Contexto].md              recomendação.md            do In-App Browser.md
+```
+
+### Validações implementadas no notebook
+
+| Validação | Onde | Por quê |
+|:----------|:-----|:--------|
+| Profiling de schema | Início do notebook | Detecta missing values, duplicados e tipos incorretos |
+| Cardinalidade dos joins | Antes de cada merge | Garante que o grão não seja inflado por dupla contagem |
+| Parsing seguro do JSON | `safe_json_parser()` | Evita que registros malformados quebrem o pipeline |
+| Reconstrução de `flow_type` | Via `utm_content` + `utm_term` | Separação correta de INAPP vs EXTERNAL |
+| Grão correto em transactions | `groupby visit_id` antes do merge | Múltiplas compras por visita não inflam CVR |
+| Documentação de `None` variants | Inline no notebook | Registros sem variante são identificados e documentados |
+
+### Princípios de governança
+
+> *"A IA atua como camada supervisionada de interpretação — não como fonte autônoma de verdade."*
+
+- **Temperature `0.2`** — respostas analíticas e determinísticas
+- **Summaries como fonte primária** — o sample é usado apenas para contexto semântico
+- **Separação explícita** hipótese ↔ fato em todos os prompts
+- **Revisão humana** dos outputs antes de incorporar à análise final
 
 ---
 
-## 2. Recomendação Fundamentada
+## 📊 Analise Teste — In-App Browser
 
-### Decisão: Manter Controle A — Não implementar B nem C
+### O que cada arquivo entrega
 
-A recomendação é **não implementar nenhuma das variantes** e manter a Versão A como experiência padrão para todos os usuários.
+| Arquivo | Origem | Conteúdo |
+|:--------|:------:|:---------|
+| `Análise Preliminar [Contexto].md` | PROMPT 1 | Raciocínio pré-dados: hipóteses, riscos antecipados, framework analítico |
+| `Análise do teste e recomendação.md` | PROMPT 2 | CVR, CPV, z-test, diagnóstico de tracking loss, recomendação fundamentada |
+| `melhoria experimental do In-App Browser.md` | PROMPT 3 | PRD completa: Seamless Authentication (iOS Keychain + Android Autofill) |
+| `Meliuz_InAppBrowser_Executive.pptx` | Manual | 9 slides executivos com identidade visual Méliuz, para gestores e stakeholders |
 
-- **Variante B** causou prejuízo estatisticamente comprovado: queda de CVR significativa, menor CPV e redução de receita atribuída.
-- **Variante C** não gerou nenhum ganho mensurável que justifique os custos de desenvolvimento, manutenção e a complexidade adicional introduzida no produto.
+### Próxima melhoria proposta: Seamless Authentication
 
----
+O experimento validou que o problema não é "usuário quer sair" — é que não consegue se autenticar no WebView. A solução proposta ataca a causa raiz:
 
-### Evidências de Suporte
+```
+Problema validado               Solução proposta
+─────────────────          →    ─────────────────────────────────
+~6.996 saídas via               iOS Keychain / Android Autofill
+EXTERNAL_LOGIN                  integrado nativamente no WebView
 
-**Gráfico 1 — Taxa de Conversão (CVR) por Variante**
+Usuário com alta intenção  →    Login com biometria (Face ID,
+abandona no ponto de login      Touch ID) em 1 toque
 
-| Variante | CVR | Barra proporcional |
-|:---------|:----|:-------------------|
-| A — Controle | 12,87% | `████████████████████████████████` |
-| B — Header   | 12,61% | `███████████████████████████████ ` |
-| C — Config   | 12,73% | `████████████████████████████████` |
+Tracking loss = -2,16 p.p. →   Zero impacto no tracking —
+CVR no fluxo externo            jornada 100% no In-App Browser
+```
 
-**Gráfico 2 — Uplift Relativo vs. Controle A**
-
-| Variante | Uplift | Resultado | Significância |
-|:---------|:------:|:----------|:--------------|
-| B (Header) | -2,03% | 🔴 Pior que controle | ✅ Estatisticamente significativo |
-| C (Config) | -1,05% | 🟡 Neutro | ❌ Não significativo |
-
-**Tabela 1 — Resultados do Teste Estatístico (Teste Z de Proporções, α = 0,05)**
-
-| Comparação | CVR (A) | CVR (Variante) | Uplift | Z-Stat | P-Value | Sig. 95%? |
-|:-----------|:-------:|:--------------:|:------:|:------:|:-------:|:---------:|
-| A vs. B | 12,87% | 12,61% | -2,03% | 4,71 | < 0,001 | ✅ Sim |
-| A vs. C | 12,87% | 12,73% | -1,05% | 2,44 | 0,0147 | ❌ Não* |
-
-> \* O p-value de C (0,0147) está abaixo de 0,05, mas o uplift é negativo e a diferença absoluta é de apenas 0,14 p.p. O resultado prático é neutro — não há ganho que justifique implementação.
->
-> *Fonte: `significance_results.csv` — `statsmodels.stats.proportion.proportions_ztest`*
-
-**Gráfico 3 — Comissão por Visita (CPV) por Variante**
-
-| Variante | CPV | Barra proporcional |
-|:---------|:----|:-------------------|
-| A — Controle | R$ 5,56 | `████████████████████████████████████` |
-| B — Header   | R$ 5,22 | `███████████████████████████████████ ` |
-| C — Config   | R$ 5,50 | `████████████████████████████████████` |
-
-**Gráfico 4 — CVR por Fluxo de Navegação (Diagnóstico de Causa Raiz)**
-
-| Fluxo | CVR | Δ vs. INAPP_DEFAULT |
-|:------|:----|:--------------------:|
-| INAPP_DEFAULT   | 12,84% | — |
-| EXTERNAL_CONFIG | 11,81% | -1,03 p.p. |
-| EXTERNAL_HEADER | 11,60% | -1,24 p.p. |
-| EXTERNAL_LOGIN  | 10,68% | -2,16 p.p. |
-
-> **Interpretação (ponto central da análise):** os fluxos externos são escolhidos por usuários com *alta intenção de compra* — quem ativamente busca uma saída ou aceita uma saída no momento da dor do login. Esse grupo deveria converter *mais* que a média, não menos. O fato de converter menos é evidência direta de **perda de atribuição**: a compra provavelmente ocorre, mas não é rastreada de volta à Méliuz.
+**Critério de sucesso:** uplift > 2% no CPV | **Guardrail:** crash rate < 0,5% | **Rollout:** 1% → 10% → 50% → 100%
 
 ---
 
-### Riscos, Vieses e Limitações
+## ▶️ Como executar a análise
 
-**6. Viés de auto-seleção (self-selection bias)**
+**① Preparação** — Tenha os 6 CSVs de input disponíveis: `visits.csv`, `transactions.csv`, `url_params.csv`, `visit_url_metadata.csv`, `partners.csv`, `channels.csv`
 
-Existe forte *self-selection bias* nos fluxos externos. Usuários que optam por sair (`EXTERNAL_HEADER`, `EXTERNAL_CONFIG`) ou aceitam a saída no momento de fricção (`EXTERNAL_LOGIN`) não são amostra aleatória — possuem intenção de compra intrinsecamente superior à média. O Gráfico 4 confirma: esse grupo de alta intenção converte menos do que o grupo padrão, o que só é explicável por perda de atribuição, não por comportamento.
+**② Colab** — Upload do `experiment_analysis.ipynb` → import dos 6 CSVs → *Executar Tudo* → download dos 5 CSVs de output
 
-**7. Tracking vs. Comportamento — separando as causas**
+> Os CSVs desta execução já estão incluídos no repositório para fins de auditabilidade. Os resultados são reproduzíveis.
 
-As evidências apontam que a queda de CVR nos fluxos externos é majoritariamente causada por **perda de tracking**, não por impacto comportamental negativo:
+**③ AI Studio** — Configure o agente:
 
-- **Evidência principal:** o perfil de quem opta por sair é de alta intenção. CVR mais baixa para esse grupo contradiz a lógica comportamental e aponta para falha de mensuração.
-- **Análise adicional necessária para confirmar definitivamente:**
-  - Pesquisas pós-compra com usuários que usaram o fluxo externo
-  - Integração Server-to-Server (S2S) com parceiros estratégicos para cruzar dados independentemente do tracking via URL
-  - Análise de cohort comparando comportamento histórico dos usuários que saíram vs. os que ficaram
+| Parâmetro | Valor |
+|:----------|:------|
+| Model | `Gemini 2.5 Pro` |
+| System Instructions | Conteúdo de `system_instructions.md` |
+| Temperature | `0.2` |
+| Max Output Tokens | `32000` |
+| Code Execution | `ON` |
+
+**④ Prompts** — Execute na sequência:
+
+| Passo | Prompt | Arquivos a anexar | Output esperado |
+|:-----:|:-------|:-----------------|:----------------|
+| 4.1 | `PROMPT_1.md` | `contexto_produto.md` + `Enunciado_Teste.md` + PDF visual | Análise Preliminar |
+| 4.2 | `PROMPT_2.md` | 5 CSVs do Colab | Análise e Recomendação |
+| 4.3 | `PROMPT_3.md` | *(sem novos arquivos)* | PRD de Melhoria |
+
+📖 Guia detalhado com prints e validações: [`Guia_Passo_a_Passo.md`](Agente%20-%20Sistema%20de%20trabalho%20com%20IA/Guia_Passo_a_Passo.md)
 
 ---
 
-## 3. Insights Adicionais e Próximos Passos
+## ♻️ Reutilização para novos experimentos
 
-### Interpretação dos Fluxos de Saída
+O framework suporta qualquer teste com estrutura `visitas → transações → variantes via parâmetros de tracking`.
 
-| Tipo de Saída | Fluxo | Visitas (B+C) | Perfil do Usuário |
-|:--------------|:------|:-------------:|:------------------|
-| Proativa | `EXTERNAL_HEADER` | ~5.872 | Prefere seu navegador padrão; decide antes de encontrar fricção |
-| Proativa | `EXTERNAL_CONFIG` | ~3.896 | Mesmo perfil, mas menos exposto à opção — validando que visibilidade impulsiona adoção |
-| Reativa | `EXTERNAL_LOGIN` | ~6.800 | Alta intenção, encontrou fricção concreta de autenticação; ponto de dor validado |
+**Substituir para um novo teste:**
 
-A diferença de volume entre HEADER (5.872) e CONFIG (3.896) confirma que **visibilidade da feature é o principal driver de adoção** — não apenas a necessidade.
+| Arquivo | O que mudar |
+|:--------|:------------|
+| CSVs de input (6 arquivos) | Dados do novo experimento |
+| `Enunciado_Teste.md` | Regras e premissas específicas |
+| Material visual (PDF) | Fluxo das novas variantes |
+| `contexto_produto.md` | Opcional — só se o produto mudou significativamente |
 
-### Trade-offs Quantificados
+**Reutilizar sem alterar:**
+`system_instructions.md` · `PROMPT_1.md` · `PROMPT_2.md` · `PROMPT_3.md` · `experiment_analysis.ipynb` · `Guia_Passo_a_Passo.md`
 
-Este experimento é raro porque **quantificou o custo do trade-off**:
+---
 
-| Dimensão | Impacto |
-|:---------|:--------|
-| UX | Provavelmente melhorou para os ~16.000 usuários que usaram a saída externa |
-| Tracking | Quebra na capacidade de medir o resultado — CVR medida cai nos fluxos externos |
-| Negócio | A melhoria de UX **não se traduziu** em resultado financeiro positivo — CPV caiu em B |
+## 🛠️ Ferramentas utilizadas
 
-> A conclusão não é que UX não importa. É que soluções de UX que quebram o modelo de atribuição não geram valor mensurável — e no modelo de negócio da Méliuz, atribuição *é* receita.
+| Ferramenta | Camada | Papel |
+|:-----------|:------:|:------|
+| **Google Colab** | Analytics | Processamento, validações, joins e agregações |
+| **Python / Pandas** | Analytics | Transformação de dados e modelagem do dataset |
+| **Statsmodels** | Analytics | Teste Z de proporções para validação estatística |
+| **Matplotlib** | Analytics | Visualizações analíticas geradas no notebook |
+| **Google AI Studio** | Cognitiva | Interpretação experimental, challenge analítico, PRD |
+| **Gemini 2.5 Pro** | Cognitiva | Modelo LLM como agente analítico supervisionado |
+| **GitHub** | Governança | Versionamento, reprodutibilidade e auditabilidade |
 
-### Novas Perguntas para Próximas Iterações
+---
 
-**1. Podemos resolver a causa raiz em vez do sintoma?**
-Em vez de facilitar a fuga do In-App Browser, podemos torná-lo melhor para autenticação?
-- *Próximo teste:* suporte nativo a gerenciadores de senhas (iOS Keychain / Android Autofill) dentro do WebView. Hipótese: facilitar o login dentro do ambiente controlado aumenta CVR sem comprometer tracking.
+## 🔜 Backlog de melhorias do framework
 
-**2. Existe solução de tracking mais robusta para fluxos externos?**
-- *Pergunta para Engenharia:* viabilidade de App-to-App tracking ou integrações S2S com parceiros estratégicos — reduzindo dependência de parâmetros de URL que se perdem no navegador externo.
+- [ ] Análise segmentada por `partner_id` — impacto pode não ser uniforme entre parceiros
+- [ ] Cálculo de poder estatístico e sample size pré-experimento no notebook
+- [ ] Análise de cohort: comportamento histórico de usuários que saíram vs. que ficaram
+- [ ] Tratamento formal dos registros sem variante atribuída (`None`)
+- [ ] Análise de impacto por OS (iOS vs. Android) — relevante para a PRD de Seamless Authentication
+- [ ] Intervalo de confiança (95%) na tabela de `significance_results.csv`
 
-**3. O impacto é uniforme entre parceiros?**
-- *Análise de aprofundamento:* segmentar resultados por `partner_id`. Parceiros com processo de login notoriamente complexo podem ter resultado diferente — podendo justificar uma solução customizada por parceiro em vez de uma decisão global.
+---
 
-**4. Qual o tamanho real do abandono por login?**
-- O volume de ~6.800 saídas via `EXTERNAL_LOGIN` é um proxy de abandono. Mas quantos desses usuários *não teriam comprado de forma alguma* sem a saída? Essa análise exige dados de sessão e funil que vão além do dataset atual.
+<div align="center">
+
+<sub>*Case Técnico · PM Pleno Shopping · Méliuz · Maio 2026*</sub>
+
+</div>
