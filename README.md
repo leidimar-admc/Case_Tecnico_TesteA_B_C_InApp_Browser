@@ -66,7 +66,7 @@
 
 ## 🏷️ Contexto do Experimento
 
-A Méliuz usa um **In-App Browser** (WebView) para preservar os parâmetros de tracking (`utm_*`, `mz_*`) que garantem a atribuição de cashback. O problema: usuários não têm sessões ativas, senhas salvas ou dados de pagamento preenchidos no WebView — ao contrário de seus navegadores externos (Chrome, Safari). Essa fricção pode gerar abandono.
+A Mar usa um **In-App Browser** (WebView) para preservar os parâmetros de tracking (`utm_*`, `mz_*`) que garantem a atribuição de cashback. O problema: usuários não têm sessões ativas, senhas salvas ou dados de pagamento preenchidos no WebView — ao contrário de seus navegadores externos (Chrome, Safari). Essa fricção pode gerar abandono.
 
 O experimento testou três versões para quantificar o trade-off entre **UX fluida** e **preservação de atribuição**.
 
@@ -120,14 +120,13 @@ O experimento testou três versões para quantificar o trade-off entre **UX flui
 
 </div>
 
-> **💡 Insight central:** usuários que optam por sair têm alta intenção de compra e deveriam converter *mais* que a média. O fato de converterem *menos* é forte evidência de **tracking loss** — a compra ocorre, mas não é atribuída à Méliuz.
-
+> **💡 Insight central:** usuários que optam por sair têm alta intenção de compra e deveriam converter *mais* que a média. O fato de converterem *menos* é forte evidência de **tracking loss** — a compra ocorre, mas não é atribuída à M
 ---
 
 ## 📁 Estrutura do Repositório
 
 ```
-case_meliuz_PM_TesteA_B_C_InApp_Browser/
+case_mar_TesteA_B_C_InApp_Browser/
 │
 ├── 🤖 Agente - Sistema de trabalho com IA/
 │   │
@@ -155,7 +154,7 @@ case_meliuz_PM_TesteA_B_C_InApp_Browser/
 │   ├── Análise Preliminar [Contexto].md    ← Output PROMPT 1 (raciocínio pré-dados)
 │   ├── Análise do teste e recomendação.md  ← Output PROMPT 2 (análise quantitativa)
 │   ├── melhoria experimental.md            ← Output PROMPT 3 (PRD completa)
-│   └── Meliuz_InAppBrowser_Executive.pptx  ← Apresentação executiva (9 slides)
+│   └── Mar_InAppBrowser_Executive.pptx  ← Apresentação executiva (9 slides)
 │
 └── README.md
 ```
