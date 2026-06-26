@@ -142,7 +142,7 @@ case_mar_TesteA_B_C_InApp_Browser/
 │   │
 │   ├── experiment_analysis.ipynb           ← Notebook Colab — processamento principal
 │   ├── experiment_analysis.py              ← Versão .py do notebook (referência)
-│   ├── Case PM - Teste A_B_C InApp Browser.pdf   ← Material visual das variantes
+│   ├── Case- Teste A_B_C InApp Browser.pdf   ← Material visual das variantes
 │   │
 │   ├── variant_summary.csv                 ← CVR, conversões e financeiro por variante
 │   ├── flow_summary.csv                    ← CVR e financeiro por tipo de fluxo
@@ -225,7 +225,7 @@ case_mar_TesteA_B_C_InApp_Browser/
 | `Análise Preliminar [Contexto].md` | PROMPT 1 | Raciocínio pré-dados: hipóteses, riscos antecipados, framework analítico |
 | `Análise do teste e recomendação.md` | PROMPT 2 | CVR, CPV, z-test, diagnóstico de tracking loss, recomendação fundamentada |
 | `melhoria experimental do In-App Browser.md` | PROMPT 3 | PRD completa: Seamless Authentication (iOS Keychain + Android Autofill) |
-| `Meliuz_InAppBrowser_Executive.pptx` | Manual | 9 slides executivos com identidade visual Méliuz, para gestores e stakeholders |
+| `Mar_InAppBrowser_Executive.pptx` | Manual | 9 slides executivos com identidade visual Mar, para gestores e stakeholders |
 
 ### Próxima melhoria proposta: Seamless Authentication
 
@@ -323,6 +323,6 @@ O framework suporta qualquer teste com estrutura `visitas → transações → v
 
 <div align="center">
 
-<sub>*Case Técnico · PM Pleno Shopping · Méliuz · Maio 2026*</sub>
+<sub>*Case Técnico · Shopping · Mar · Maio 2026*</sub>
 
 </div>
