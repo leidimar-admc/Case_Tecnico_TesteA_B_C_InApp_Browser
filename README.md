@@ -24,7 +24,7 @@
   <text x="138" y="62" font-family="Georgia,serif" font-size="28" fill="#FFFFFF">Shopping</text>
   <rect x="48" y="78" width="60" height="4" rx="2" fill="#F72585"/>
   <text x="48" y="108" font-family="Arial,sans-serif" font-size="15" fill="#9999AA">Experimentation &amp; Analytics Framework</text>
-  <text x="48" y="132" font-family="Arial,sans-serif" font-size="13" fill="#666677">Case Técnico · PM Pleno · Análise de Experimento A/B/C: In-App Browser</text>
+  <text x="48" y="132" font-family="Arial,sans-serif" font-size="13" fill="#666677">Case Técnico · Pleno · Análise de Experimento A/B/C: In-App Browser</text>
   <rect x="620" y="30" width="240" height="118" rx="10" fill="#242428" opacity="0.9"/>
   <rect x="620" y="30" width="240" height="4" rx="0" fill="#F72585" opacity="0.8"/>
   <text x="740" y="64" font-family="Arial,sans-serif" font-size="11" fill="#9999AA" text-anchor="middle">RESULTADO DO EXPERIMENTO</text>
@@ -36,7 +36,7 @@
   <rect x="48" y="152" width="90" height="20" rx="10" fill="#2E2E35"/>
   <text x="93" y="166" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">Maio 2026</text>
   <rect x="146" y="152" width="96" height="20" rx="10" fill="#2E2E35"/>
-  <text x="194" y="166" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle">CONFIDENCIAL</text>
+  <text x="194" y="166" font-family="Arial,sans-serif" font-size="10" fill="#9999AA" text-anchor="middle"></text>
 </svg>
 
 <br/><br/>
