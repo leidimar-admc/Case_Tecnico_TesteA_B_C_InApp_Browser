@@ -20,7 +20,7 @@
   <rect width="900" height="180" rx="16" fill="url(#glow1)"/>
   <rect width="900" height="180" rx="16" fill="url(#glow2)"/>
   <rect x="0" y="0" width="900" height="5" rx="0" fill="#F72585"/>
-  <text x="48" y="62" font-family="Georgia,serif" font-size="28" font-style="italic" font-weight="bold" fill="#F72585">méliuz</text>
+  <text x="48" y="62" font-family="Georgia,serif" font-size="28" font-style="italic" font-weight="bold" fill="#F72585">Mar</text>
   <text x="138" y="62" font-family="Georgia,serif" font-size="28" fill="#FFFFFF">Shopping</text>
   <rect x="48" y="78" width="60" height="4" rx="2" fill="#F72585"/>
   <text x="48" y="108" font-family="Arial,sans-serif" font-size="15" fill="#9999AA">Experimentation &amp; Analytics Framework</text>
